@@ -1,0 +1,13 @@
+{
+  "name": "automated-portfolio-management-platform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Nexus Solutions portfolio generation platform monorepo",
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "dev:frontend": "npm --workspace frontend run dev",
+    "build:frontend": "npm --workspace frontend run build",
+    "test": "npm --workspace frontend run test --if-present && npm --workspace backend run test --if-present"
+  }
+}
+

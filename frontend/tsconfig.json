@@ -1,0 +1,5 @@
+{
+  "compilerOptions": { "target": "ES2022", "strict": true, "jsx": "preserve", "moduleResolution": "bundler" },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "next-env.d.ts"]
+}
+
