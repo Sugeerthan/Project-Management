@@ -1,0 +1,16 @@
+**/node_modules/
+**/.next/
+**/out/
+**/dist/
+**/build/
+**/coverage/
+.git/
+.husky/_/
+package-lock.json
+**/next-env.d.ts
+**/*.tsbuildinfo
+**/AGENTS.md
+.env
+.env.*
+**/.env
+**/.env.*
