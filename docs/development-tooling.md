@@ -31,6 +31,9 @@ can therefore report inherited formatting differences; format only the files you
 intend to include in a change. Do not run the broad write command just to satisfy
 an unrelated task.
 
-Full builds and TypeScript checks remain manual commands to keep commits fast.
+Full builds and TypeScript checks are outside the pre-commit hook to keep commits
+fast. The [PR checks workflow](../.github/workflows/pr-checks.yml) runs lint,
+typecheck, and the frontend build for pull requests targeting `main`, using Node.js
+22 and no application secrets. Local commands remain available for verification.
 No test suite is added by this tooling setup. Existing Vitest scripts remain a
 separate, unconfigured scaffold item.
