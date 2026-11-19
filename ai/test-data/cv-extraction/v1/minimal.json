@@ -1,0 +1,16 @@
+{
+  "personalInfo": {
+    "fullName": null,
+    "headline": null,
+    "summary": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null
+  },
+  "experience": [],
+  "education": [],
+  "skills": [],
+  "projects": [],
+  "socialLinks": []
+}
