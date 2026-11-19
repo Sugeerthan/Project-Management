@@ -16,7 +16,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:staged": "lint-staged",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.mjs",
+    "test:auth": "npm --workspace frontend test"
   },
   "devDependencies": {
     "husky": "9.1.7",
