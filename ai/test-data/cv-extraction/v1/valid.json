@@ -1,0 +1,62 @@
+{
+  "personalInfo": {
+    "fullName": "Maya Example",
+    "headline": "Software Engineer",
+    "summary": "Software engineer building accessible web applications.",
+    "email": "maya@example.invalid",
+    "phone": null,
+    "location": "Colombo, Sri Lanka",
+    "website": "https://portfolio.example.invalid/maya"
+  },
+  "experience": [
+    {
+      "company": "Example Studio",
+      "role": "Software Engineer",
+      "location": null,
+      "startDate": "2023-07",
+      "endDate": null,
+      "isCurrent": true,
+      "description": "Builds customer-facing web interfaces.",
+      "highlights": ["Implemented keyboard navigation for a reporting interface."]
+    },
+    {
+      "company": "Sample Systems",
+      "role": "Engineering Intern",
+      "location": "Colombo",
+      "startDate": "2022-06-01",
+      "endDate": "2022-12",
+      "isCurrent": false,
+      "description": null,
+      "highlights": []
+    }
+  ],
+  "education": [
+    {
+      "institution": "Example Institute",
+      "qualification": "BSc",
+      "fieldOfStudy": "Computer Science",
+      "startDate": "2019",
+      "endDate": "2023",
+      "description": null
+    }
+  ],
+  "skills": [
+    { "name": "TypeScript", "category": "Programming", "proficiency": null },
+    { "name": "PostgreSQL", "category": null, "proficiency": null }
+  ],
+  "projects": [
+    {
+      "name": "Community Reading Tracker",
+      "description": "An application for tracking reading-group sessions.",
+      "url": "https://projects.example.invalid/reading",
+      "startDate": "2024",
+      "endDate": null,
+      "technologies": ["TypeScript", "PostgreSQL"],
+      "highlights": []
+    }
+  ],
+  "socialLinks": [
+    { "platform": "GitHub", "url": "https://github.com/example-synthetic", "username": null },
+    { "platform": null, "url": null, "username": "@maya-example" }
+  ]
+}

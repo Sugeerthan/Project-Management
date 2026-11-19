@@ -7,13 +7,14 @@ customer review and edit it, and generates a portfolio for preview and publicati
 
 ## Current implementation status
 
-The repository currently contains the Module 0 development foundation.
+The repository contains the Module 0 development foundation and the Module 2
+versioned CV extraction contract. Gemini and Supabase integration remain planned.
 
 | Implemented                                                        | Planned                                                      |
 | ------------------------------------------------------------------ | ------------------------------------------------------------ |
 | Next.js App Router frontend with a responsive placeholder homepage | CV upload and Supabase Storage integration                   |
 | React, strict TypeScript, Tailwind CSS, and PostCSS configuration  | Supabase Auth, PostgreSQL persistence, and RLS policies      |
-| npm workspaces and a shared root lockfile                          | Gemini extraction and shared Zod validation                  |
+| npm workspaces and a shared root lockfile                          | Gemini service integration                                   |
 | ESLint, Prettier, Husky, lint-staged, and a GitHub PR template     | Customer review/editing, administration, and theme rendering |
 | Environment placeholders and cross-platform line-ending policy     | Portfolio preview, approval, and publishing orchestration    |
 
@@ -22,11 +23,17 @@ services, database migrations, and AI modules are placeholders; the homepage doe
 not upload CVs or generate portfolios. The GitHub Actions workflow validates pull
 requests; it does not deploy the application.
 
+The shared extraction schema, TypeScript types, synthetic fixtures, and local
+validation tests are implemented in `@nexus/shared/cv-extraction/v1`. See the
+[contract specification](docs/ai/cv-extraction-schema-v1.md) and
+[validation guide](docs/ai/cv-extraction-validation.md). Validation establishes
+structure, not factual accuracy or approval to publish private contact details.
+
 ## Technology stack
 
 - **Implemented:** Next.js 16.4.5, React 19.3.1, TypeScript, and Tailwind CSS 3.4.19.
-- **Planned integrations:** Supabase PostgreSQL, Auth, and Storage; Google Gemini API;
-  Zod for boundary and AI-output validation.
+- **Planned integrations:** Supabase PostgreSQL, Auth, and Storage; Google Gemini API.
+- **Shared contract:** Zod 4.6.7 for extraction validation and inferred types.
 - **Deployment and automation:** Vercel for the frontend; GitHub Actions validates
   pull requests targeting `main`. Hosted CI results, deployment status, and
   environment scopes are verified externally.
@@ -42,9 +49,9 @@ Customer CV upload -> Frontend -> Backend/API -> Supabase Storage
   -> Deployment -> Published portfolio
 ```
 
-The root project is a private npm monorepo with two workspaces: `frontend` and
-`backend`. Other top-level folders define architectural boundaries rather than
-separate npm packages.
+The root project is a private npm monorepo with three workspaces: `frontend`,
+`backend`, and `shared` (`@nexus/shared`). Other top-level folders define
+architectural boundaries rather than separate npm packages.
 
 | Area                                          | Responsibility and current state                                                             |
 | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -52,7 +59,7 @@ separate npm packages.
 | [`backend/`](backend/README.md)               | API, authorization, storage, and deployment-service placeholders; no runnable server yet     |
 | [`database/`](database/README.md)             | Supabase migration, seed, schema, and RLS scaffolding                                        |
 | [`ai/`](ai/README.md)                         | Planned Gemini extraction, mapping, prompts, and validation pipeline                         |
-| [`shared/`](shared/README.md)                 | Reserved for cross-boundary TypeScript types, Zod schemas, constants, and utilities          |
+| [`shared/`](shared/README.md)                 | Versioned CV extraction schema, inferred types, bounded JSON parser, and tests               |
 | [`testing/`](testing/README.md)               | Planned unit, integration, API, and Cypress end-to-end testing areas                         |
 | `docs/`                                       | Architecture, research, database, API, AI, deployment, and development records               |
 | [`infrastructure/`](infrastructure/README.md) | Reserved for deployment and automation configuration                                         |
@@ -133,8 +140,8 @@ Run these from the repository root unless stated otherwise.
 | `npm run dev:frontend`               | Start the Next.js development server                                                             |
 | `npm run build:frontend`             | Create the frontend production build                                                             |
 | `npm --workspace frontend run start` | Serve an existing frontend production build                                                      |
-| `npm run lint`                       | Run frontend ESLint                                                                              |
-| `npm run typecheck`                  | Run frontend TypeScript checks                                                                   |
+| `npm run lint`                       | Run shared-contract and frontend ESLint                                                          |
+| `npm run typecheck`                  | Build shared declarations; check shared, backend, and frontend types                             |
 | `npx prettier --check README.md`     | Check formatting for a selected file                                                             |
 | `npx prettier --write path/to/file`  | Format selected files                                                                            |
 | `npm run format:check`               | Check formatting across the repository                                                           |
@@ -163,10 +170,14 @@ npx prettier --check path/to/changed-file
 npm run build:frontend
 ```
 
-Lint and typecheck currently cover the frontend. No automated test suite is
-configured: the frontend and backend `test` scripts reference Vitest, which is not
-installed. `--if-present` in the root test command does not make these scripts pass.
-Unit, integration, API, and end-to-end tests remain planned.
+Run `npm run test:cv` for the shared extraction tests using Node's built-in runner.
+Run `npm run build:shared` before consuming the package directly; root typecheck
+and frontend build do this automatically. ESLint covers shared contract code/tests
+and frontend; typecheck covers shared, backend, and frontend.
+
+The inherited root `npm test` still invokes frontend/backend Vitest scripts, which
+are not configured. `--if-present` does not make those scripts pass. Other unit,
+integration, API, and end-to-end suites remain planned.
 
 The repository has **27 pre-existing formatting issues** outside this README
 update. The broad formatting check therefore fails; check changed files
