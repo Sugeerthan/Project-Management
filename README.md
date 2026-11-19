@@ -232,3 +232,11 @@ backend automation.
 
 Some design documents describe planned components; use the implementation status
 above and actual source files to distinguish scaffolding from working features.
+
+## Signup UI and username checks
+
+The `/signup` form implements proposed username validation, reserved names,
+suggestions, and debounced availability states. Real availability and registration
+remain blocked until an approved atomic username registry exists.
+See the [signup guide](docs/auth/signup-username.md) for implementation boundaries,
+tests, database prerequisites, and recording instructions.
