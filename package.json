@@ -17,7 +17,8 @@
     "format:check": "prettier --check .",
     "lint:staged": "lint-staged",
     "prepare": "node .husky/install.mjs",
-    "test:auth": "npm --workspace frontend test"
+    "test:auth": "npm --workspace frontend test",
+    "test:signup": "npm --workspace frontend test -- src/features/signup src/lib/supabase/registration.test.ts"
   },
   "devDependencies": {
     "husky": "9.1.7",
