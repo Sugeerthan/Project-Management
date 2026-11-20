@@ -1,0 +1,10 @@
+# Local CLI workspace identifier, not a hosted project reference or credential.
+# Use --workdir database and an explicit development target for future remote work.
+project_id = "nexus-portfolio"
+
+[db.migrations]
+enabled = true
+
+# No seed data is introduced by the profiles foundation.
+[db.seed]
+enabled = false

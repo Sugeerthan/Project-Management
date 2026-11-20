@@ -1,0 +1,4 @@
+# Generated local CLI state must not be committed.
+.temp/
+.branches/
+.env*
