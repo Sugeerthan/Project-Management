@@ -32,8 +32,8 @@ Next.js development, copy the needed placeholders to `frontend/.env.local`.
   privileged backend operations; ordinary user authentication does not require it.
 
 Vercel Preview configuration is expected to target `nexus-portfolio-dev`.
-Supabase and Gemini are not integrated yet, so the scaffold does not consume these
-variables. Values and environment scopes must be verified in Vercel settings.
+The Auth client consumes the public Supabase values for login/session handling.
+Gemini remains unintegrated. Values and environment scopes must be verified in Vercel settings.
 
 ## Preview deployment verification
 
@@ -56,5 +56,7 @@ outside the repository.
 - `src/components/` is reserved for reusable, feature-neutral UI.
 
 The homepage is a responsive scaffold; portfolio creation is not implemented.
-The inherited `test` scripts reference Vitest, which is not yet installed or configured.
-Test-suite setup is separate from this scaffold task.
+Run `npm run test:auth` from the root for mocked frontend Auth tests.
+See the [login/session guide](../docs/auth/login-session-handling.md) for cookie
+security, required development configuration, and the exact recording walkthrough.
+The backend test suite remains outside this task.

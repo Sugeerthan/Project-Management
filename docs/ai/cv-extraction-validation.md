@@ -82,9 +82,9 @@ npm run build:frontend
 
 `test:cv` builds shared code and runs Node's built-in tests, including JSON fixtures,
 strict shapes, date precision/calendar validity, bounds, raw JSON handling, and
-extraction-rule presence. It uses no external services. The inherited root
-`npm test` still invokes unconfigured frontend/backend Vitest scripts; those suites
-are outside this task. Use the explicit contract test command above.
+extraction-rule presence. It uses no external services. The root `npm test` runs
+both the shared CV extraction and frontend Auth suites; backend tests remain
+unconfigured and are not included.
 
 Task A proof after commit: link to `docs/ai/cv-extraction-schema-v1.md` or the valid
 JSON fixture at the reviewed commit. Task B proof: link to the shared schema and
