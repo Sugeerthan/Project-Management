@@ -140,8 +140,8 @@ handling, post-logout denial, and history-event UI hiding. All Supabase clients
 are **mocked** in these tests. They do not prove real cookies, tokens, email
 verification, SDK cross-tab communication, or remote session refresh behavior.
 No real accounts, database rows, or provider settings are created by tests.
-The inherited root `npm test` also invokes unconfigured backend tests; use
-`test:auth` for this task rather than claiming unrelated backend suites pass.
+The root `npm test` runs both the frontend Auth and shared CV extraction suites.
+Backend tests remain unconfigured and are not included.
 
 Check changed Markdown/TypeScript/JSON files with the installed Prettier and run
 `git diff --check`. The production build requires no configured Supabase project.
