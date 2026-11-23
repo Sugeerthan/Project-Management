@@ -1,0 +1,40 @@
+name: PR 13 production dependency audit
+
+on:
+  push:
+    branches:
+      - chore/pr-13-production-dependency-audit
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit PR 13 production dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HUSKY: "0"
+      npm_config_registry: https://registry.npmjs.org/
+      npm_config_strict_ssl: "true"
+    steps:
+      - name: Check out the exact PR 13 integration commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: e736b7826d50475b12005880970240099d06955a
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          registry-url: https://registry.npmjs.org/
+
+      - name: Verify checkout
+        run: test "$(git rev-parse HEAD)" = "e736b7826d50475b12005880970240099d06955a"
+
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit
+
+      - name: Fail on high or critical production advisories or audit errors
+        run: npm audit --omit=dev --audit-level=high
