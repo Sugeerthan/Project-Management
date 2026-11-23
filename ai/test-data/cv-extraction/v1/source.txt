@@ -1,0 +1,31 @@
+SYNTHETIC TEST CV: no real customer data.
+
+Maya Example
+Software Engineer
+Colombo, Sri Lanka
+maya@example.invalid
+https://portfolio.example.invalid/maya
+Software engineer building accessible web applications.
+
+EXPERIENCE
+Example Studio — Software Engineer, July 2023–Present
+Builds customer-facing web interfaces.
+Implemented keyboard navigation for a reporting interface.
+Sample Systems — Engineering Intern, Colombo, 1 June 2022–December 2022
+
+EDUCATION
+Example Institute, BSc Computer Science, 2019–2023
+
+SKILLS
+Programming: TypeScript
+PostgreSQL
+
+PROJECTS
+Community Reading Tracker, 2024 (no end date stated)
+An application for tracking reading-group sessions.
+Technologies: TypeScript, PostgreSQL
+https://projects.example.invalid/reading
+
+SOCIAL
+GitHub: https://github.com/example-synthetic
+@maya-example (platform not stated)

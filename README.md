@@ -7,22 +7,28 @@ customer review and edit it, and generates a portfolio for preview and publicati
 
 ## Current implementation status
 
-The repository contains the Module 0 foundation plus Module 1 Auth login, logout,
-and session handling.
+The repository contains the Module 0 foundation, Module 1 Auth login, logout and
+session handling, and the Module 2 versioned CV extraction contract.
 
 | Implemented                                                        | Planned                                                      |
 | ------------------------------------------------------------------ | ------------------------------------------------------------ |
 | Next.js App Router frontend with a responsive placeholder homepage | CV upload and Supabase Storage integration                   |
 | React, strict TypeScript, Tailwind CSS, and PostCSS configuration  | PostgreSQL persistence and RLS policies                      |
-| npm workspaces and a shared root lockfile                          | Gemini extraction and shared Zod validation                  |
+| npm workspaces and a shared root lockfile                          | Gemini service integration                                   |
 | ESLint, Prettier, Husky, lint-staged, and a GitHub PR template     | Customer review/editing, administration, and theme rendering |
 | Environment placeholders and cross-platform line-ending policy     | Portfolio preview, approval, and publishing orchestration    |
 
 Supabase Auth login, a protected dashboard, and logout are implemented in the
 frontend; real development Auth acceptance still requires a verified test account.
 Gemini, backend services, database migrations, and portfolio creation remain
-placeholders; the homepage does not upload CVs or generate portfolios. The GitHub Actions workflow validates pull
-requests; it does not deploy the application.
+placeholders; the homepage does not upload CVs or generate portfolios. The GitHub
+Actions workflow validates pull requests; it does not deploy the application.
+
+The shared extraction schema, TypeScript types, synthetic fixtures, and local
+validation tests are implemented in `@nexus/shared/cv-extraction/v1`. See the
+[contract specification](docs/ai/cv-extraction-schema-v1.md) and
+[validation guide](docs/ai/cv-extraction-validation.md). Validation establishes
+structure, not factual accuracy or approval to publish private contact details.
 
 See the [login/session guide](docs/auth/login-session-handling.md) for SSR cookie
 architecture, configuration, mocked tests, and the required manual recording.
@@ -31,8 +37,8 @@ architecture, configuration, mocked tests, and the required manual recording.
 
 - **Implemented:** Next.js 16.4.5, React 19.3.1, TypeScript, and Tailwind CSS 3.4.19.
 - **Implemented Auth:** Supabase browser/server clients with SSR cookies.
-- **Planned integrations:** Supabase PostgreSQL and Storage; Google Gemini API;
-  Zod for boundary and AI-output validation.
+- **Shared contract:** Zod 4.6.7 for extraction validation and inferred types.
+- **Planned integrations:** Supabase PostgreSQL and Storage; Google Gemini API.
 - **Deployment and automation:** Vercel for the frontend; GitHub Actions validates
   pull requests targeting `main`. Hosted CI results, deployment status, and
   environment scopes are verified externally.
@@ -48,9 +54,9 @@ Customer CV upload -> Frontend -> Backend/API -> Supabase Storage
   -> Deployment -> Published portfolio
 ```
 
-The root project is a private npm monorepo with two workspaces: `frontend` and
-`backend`. Other top-level folders define architectural boundaries rather than
-separate npm packages.
+The root project is a private npm monorepo with three workspaces: `frontend`,
+`backend`, and `shared` (`@nexus/shared`). Other top-level folders define
+architectural boundaries rather than separate npm packages.
 
 | Area                                          | Responsibility and current state                                                             |
 | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -58,7 +64,7 @@ separate npm packages.
 | [`backend/`](backend/README.md)               | API, authorization, storage, and deployment-service placeholders; no runnable server yet     |
 | [`database/`](database/README.md)             | Supabase migration, seed, schema, and RLS scaffolding                                        |
 | [`ai/`](ai/README.md)                         | Planned Gemini extraction, mapping, prompts, and validation pipeline                         |
-| [`shared/`](shared/README.md)                 | Reserved for cross-boundary TypeScript types, Zod schemas, constants, and utilities          |
+| [`shared/`](shared/README.md)                 | Versioned CV extraction schema, inferred types, bounded JSON parser, and tests               |
 | [`testing/`](testing/README.md)               | Planned unit, integration, API, and Cypress end-to-end testing areas                         |
 | `docs/`                                       | Architecture, research, database, API, AI, deployment, and development records               |
 | [`infrastructure/`](infrastructure/README.md) | Reserved for deployment and automation configuration                                         |
@@ -134,21 +140,24 @@ and storage/RLS policies will need configuration when those features are added.
 
 Run these from the repository root unless stated otherwise.
 
-| Command                              | Purpose                                                                                |
-| ------------------------------------ | -------------------------------------------------------------------------------------- |
-| `npm ci`                             | Install locked workspace dependencies; initialize local hooks through `prepare`        |
-| `npm run dev:frontend`               | Start the Next.js development server                                                   |
-| `npm run build:frontend`             | Create the frontend production build                                                   |
-| `npm --workspace frontend run start` | Serve an existing frontend production build                                            |
-| `npm run lint`                       | Run frontend ESLint                                                                    |
-| `npm run typecheck`                  | Run frontend TypeScript checks                                                         |
-| `npx prettier --check README.md`     | Check formatting for a selected file                                                   |
-| `npx prettier --write path/to/file`  | Format selected files                                                                  |
-| `npm run format:check`               | Check formatting across the repository                                                 |
-| `npm run format`                     | Format the entire repository; avoid this for unrelated changes                         |
-| `npm run lint:staged`                | Validate staged files with lint-staged                                                 |
-| `npm run prepare`                    | Initialize local Husky hooks when applicable                                           |
-| `npm test`                           | Invoke workspace tests; frontend Auth is configured, backend tests remain unconfigured |
+| Command                              | Purpose                                                   |
+| ------------------------------------ | --------------------------------------------------------- |
+| `npm ci`                             | Install locked workspace dependencies                     |
+| `npm run dev:frontend`               | Start the Next.js development server                      |
+| `npm run build:frontend`             | Build shared declarations and the frontend                |
+| `npm --workspace frontend run start` | Serve an existing frontend build                          |
+| `npm run build:shared`               | Build the shared contract package                         |
+| `npm test`                           | Run both CV extraction and frontend Auth tests            |
+| `npm run test:cv`                    | Run shared CV extraction contract tests                   |
+| `npm run test:auth`                  | Run frontend Auth tests                                   |
+| `npm run lint`                       | Run shared and frontend ESLint                            |
+| `npm run typecheck`                  | Build shared and check shared, backend and frontend types |
+| `npm run format:check`               | Check repository formatting                               |
+| `npx prettier --check path/to/file`  | Check selected files                                      |
+| `npx prettier --write path/to/file`  | Format selected files                                     |
+| `npm run format`                     | Format the entire repository                              |
+| `npm run lint:staged`                | Validate staged files                                     |
+| `npm run prepare`                    | Initialize local Husky hooks when applicable              |
 
 Husky initialization is skipped in CI, Vercel, production, with `HUSKY=0`, or when
 Husky is not installed. Normal development installs retain the pre-commit hook.
@@ -170,15 +179,15 @@ npx prettier --check path/to/changed-file
 npm run build:frontend
 ```
 
-Lint and typecheck currently cover the frontend. Frontend Auth tests use Vitest and Testing Library via `npm run test:auth`.
-Backend tests remain unconfigured. The root `npm test` still invokes both
-workspaces and is not the focused Auth verification command. `--if-present` in the root test command does not make these scripts pass.
-Other unit, integration, API, and end-to-end suites remain planned.
+Run `npm test` to execute the shared extraction and frontend Auth suites, or use
+`npm run test:cv` and `npm run test:auth` separately. Run `npm run build:shared`
+before consuming the package directly; root typecheck and frontend build do this
+automatically. ESLint covers shared contract code/tests and frontend; typecheck
+covers shared, backend, and frontend. Backend Vitest tests are not configured.
 
-The repository has **27 pre-existing formatting issues** outside this README
-update. The broad formatting check therefore fails; check changed files
-and avoid a repository-wide formatting sweep in unrelated PRs. This count will
-change as formatting cleanup is completed.
+The repository has pre-existing formatting issues outside this integration.
+The broad formatting check therefore fails; check changed files and avoid a
+repository-wide formatting sweep in unrelated changes.
 
 ## Git workflow
 

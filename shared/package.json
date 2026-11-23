@@ -1,0 +1,30 @@
+{
+  "name": "@nexus/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./cv-extraction/v1": {
+      "types": "./dist/cv-extraction/v1.d.ts",
+      "import": "./dist/cv-extraction/v1.js",
+      "default": "./dist/cv-extraction/v1.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "lint": "eslint src tests"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}
