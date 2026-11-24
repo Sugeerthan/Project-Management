@@ -20,9 +20,11 @@ session handling, and the Module 2 versioned CV extraction contract.
 
 Supabase Auth login, a protected dashboard, and logout are implemented in the
 frontend; real development Auth acceptance still requires a verified test account.
-Gemini, backend services, database migrations, and portfolio creation remain
-placeholders; the homepage does not upload CVs or generate portfolios. The GitHub
-Actions workflow validates pull requests; it does not deploy the application.
+The private Auth-linked profiles migration and RLS test harness are prepared but
+have not been applied or executed against Supabase. Gemini, backend services, and
+database-backed portfolio creation remain unimplemented; the homepage does not
+upload CVs or generate portfolios. The GitHub Actions workflow validates pull
+requests; it does not deploy the application.
 
 The shared extraction schema, TypeScript types, synthetic fixtures, and local
 validation tests are implemented in `@nexus/shared/cv-extraction/v1`. See the
@@ -62,7 +64,7 @@ architectural boundaries rather than separate npm packages.
 | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [`frontend/`](frontend/README.md)             | Runnable Next.js scaffold; customer, administrator, and public-portfolio routes are reserved |
 | [`backend/`](backend/README.md)               | API, authorization, storage, and deployment-service placeholders; no runnable server yet     |
-| [`database/`](database/README.md)             | Supabase migration, seed, schema, and RLS scaffolding                                        |
+| [`database/`](database/README.md)             | Prepared profiles migration and private RLS; CLI workspace and future connected tests        |
 | [`ai/`](ai/README.md)                         | Planned Gemini extraction, mapping, prompts, and validation pipeline                         |
 | [`shared/`](shared/README.md)                 | Versioned CV extraction schema, inferred types, bounded JSON parser, and tests               |
 | [`testing/`](testing/README.md)               | Planned unit, integration, API, and Cypress end-to-end testing areas                         |
@@ -221,7 +223,8 @@ that deployment succeeded. No GitHub Actions secrets are required by the PR chec
 workflow; Vercel environment values and integration settings live outside
 this repository.
 
-There are no implemented migrations or portfolio-publishing services to run yet.
+The prepared profiles migration requires separate development approval and testing;
+it must not run as part of a Vercel deployment. Portfolio-publishing services remain planned.
 The deployment architecture documents describe the target design, not completed
 backend automation.
 
@@ -234,6 +237,7 @@ backend automation.
 - [ADR 0001: Defer Docker during initial development (Proposed)](docs/adr/0001-no-docker-initial-development.md)
 - [Database design](docs/database/database-design.md) and
   [relationships](docs/database/relationships.md)
+- [Profiles foundation and migration safety](docs/database/profiles-foundation.md)
 - [API overview](docs/api/api-overview.md) and [CV extraction](docs/ai/cv-extraction.md)
 - [Deployment strategy](docs/deployment/deployment-strategy.md)
 - [Frontend guide](frontend/README.md) and
