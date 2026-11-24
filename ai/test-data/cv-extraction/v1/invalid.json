@@ -1,0 +1,29 @@
+{
+  "personalInfo": {
+    "fullName": 42,
+    "headline": null,
+    "summary": null,
+    "email": "not-an-email",
+    "phone": null,
+    "location": null,
+    "website": "javascript:alert(1)",
+    "admin": true
+  },
+  "experience": [
+    {
+      "company": "Synthetic Example",
+      "role": null,
+      "location": null,
+      "startDate": "2023-02-29",
+      "endDate": null,
+      "isCurrent": "yes",
+      "description": null,
+      "highlights": []
+    }
+  ],
+  "education": [],
+  "skills": ["TypeScript"],
+  "projects": [],
+  "socialLinks": [],
+  "confidence": 0.99
+}
