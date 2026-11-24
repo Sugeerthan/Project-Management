@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "Portfolio API provisional contracts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "No real CRUD is available. Authenticate using a legitimate session; do not store credentials in this collection."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "portfolioId",
+      "value": "c90b01a8-5926-48af-bfb5-084954a5c101"
+    },
+    {
+      "key": "entryId",
+      "value": "c90b01a8-5926-48af-bfb5-084954a5c102"
+    }
+  ],
+  "item": [
+    {
+      "name": "List portfolios",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/portfolios",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection."
+      },
+      "response": []
+    },
+    {
+      "name": "Create portfolio",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios",
+        "description": "Provisional success HTTP 201; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Example portfolio\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Read portfolio",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection."
+      },
+      "response": []
+    },
+    {
+      "name": "Update portfolio",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated portfolio\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List education",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/education",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection."
+      },
+      "response": []
+    },
+    {
+      "name": "Create education",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/education",
+        "description": "Provisional success HTTP 201; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"institution\": \"Example school\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update education",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/education/{{entryId}}",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"institution\": \"Example school\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List experience",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/experience",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection."
+      },
+      "response": []
+    },
+    {
+      "name": "Create experience",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/experience",
+        "description": "Provisional success HTTP 201; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"organization\": \"Example organization\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update experience",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/portfolios/{{portfolioId}}/experience/{{entryId}}",
+        "description": "Provisional success HTTP 200; response JSON Schema: {\"type\": \"object\", \"required\": [\"data\"], \"properties\": {\"data\": {\"type\": \"object\", \"required\": [\"id\"], \"properties\": {\"id\": {\"type\": \"string\", \"format\": \"uuid\"}}, \"additionalProperties\": true}}, \"additionalProperties\": false}. Error JSON: {\"error\":{\"code\":\"invalid_request|unauthenticated|forbidden|not_found|conflict|unavailable|internal_error\"}} with status 400/401/403/404/409/503/500 respectively. Current authenticated valid requests return 503. Requires a legitimate non-anonymous authenticated session cookie for the same origin; do not save credentials in this collection.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"organization\": \"Example organization\"\n}"
+        }
+      },
+      "response": []
+    }
+  ]
+}

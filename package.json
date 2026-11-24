@@ -5,18 +5,23 @@
   "description": "Nexus Solutions portfolio generation platform monorepo",
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "shared"
   ],
   "scripts": {
     "dev:frontend": "npm --workspace frontend run dev",
-    "build:frontend": "npm --workspace frontend run build",
-    "test": "npm --workspace frontend run test --if-present && npm --workspace backend run test --if-present",
-    "lint": "npm --workspace frontend run lint",
-    "typecheck": "npm --workspace frontend run typecheck",
+    "build:frontend": "npm run build:shared && npm --workspace frontend run build",
+    "test": "npm run test:cv && npm run test:auth",
+    "lint": "npm --workspace @nexus/shared run lint && npm --workspace frontend run lint",
+    "typecheck": "npm run build:shared && npm --workspace @nexus/shared run typecheck && npm --workspace backend run typecheck && npm --workspace frontend run typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:staged": "lint-staged",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.mjs",
+    "test:cv": "npm --workspace @nexus/shared test",
+    "build:shared": "npm --workspace @nexus/shared run build",
+    "test:auth": "npm --workspace frontend test",
+    "test:signup": "npm --workspace frontend test -- src/features/signup src/lib/supabase/registration.test.ts"
   },
   "devDependencies": {
     "husky": "9.1.7",
