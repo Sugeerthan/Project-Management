@@ -2,6 +2,7 @@ import type { CookieMethodsServer } from "@supabase/ssr";
 import { NextRequest } from "next/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { updateAuthSession } from "./proxy";
+import { config } from "../../proxy";
 
 const sdk = vi.hoisted(() => ({ createServerClient: vi.fn(), getClaims: vi.fn() }));
 vi.mock("@supabase/ssr", () => ({ createServerClient: sdk.createServerClient }));
@@ -16,6 +17,13 @@ beforeEach(() => {
 });
 
 describe("Next.js auth proxy (mocked Supabase)", () => {
+  it("refreshes homepage sessions and prevents caching personalized navigation", async () => {
+    expect(config.matcher).toContain("/");
+    const response = await updateAuthSession(request("/"));
+    expect(sdk.getClaims).toHaveBeenCalled();
+    expect(response.headers.get("location")).toBeNull();
+    expect(response.headers.get("cache-control")).toContain("private, no-store");
+  });
   it("redirects unauthenticated dashboard requests with no public caching", async () => {
     const response = await updateAuthSession(request("/dashboard?next=https://evil.example"));
     expect(response.headers.get("location")).toBe(

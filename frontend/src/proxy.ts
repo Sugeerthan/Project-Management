@@ -5,4 +5,4 @@ export function proxy(request: NextRequest) {
   return updateAuthSession(request);
 }
 
-export const config = { matcher: ["/login", "/dashboard/:path*"] };
+export const config = { matcher: ["/", "/login", "/dashboard/:path*"] };
