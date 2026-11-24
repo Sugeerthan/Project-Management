@@ -60,3 +60,11 @@ Run `npm run test:auth` from the root for mocked frontend Auth tests.
 See the [login/session guide](../docs/auth/login-session-handling.md) for cookie
 security, required development configuration, and the exact recording walkthrough.
 The backend test suite remains outside this task.
+
+## Signup UI and username checks
+
+The `/signup` form implements proposed username validation, reserved names,
+suggestions, and debounced availability states. Real availability and registration
+remain blocked until an approved atomic username registry exists.
+See the [signup guide](../docs/auth/signup-username.md) and
+[registry proposal](../docs/database/username-registry-proposal.md).
