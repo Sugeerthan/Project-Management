@@ -46,7 +46,8 @@ begin
     if not (select relrowsecurity from pg_class where oid = 'public.profiles'::regclass) then
         raise exception 'Profiles RLS is not enabled';
     end if;
-    if has_table_privilege('authenticated', 'public.profiles', 'INSERT')
+    if not has_table_privilege('authenticated', 'public.profiles', 'SELECT')
+        or has_table_privilege('authenticated', 'public.profiles', 'INSERT')
         or has_table_privilege('authenticated', 'public.profiles', 'DELETE')
         or has_table_privilege('authenticated', 'public.profiles', 'UPDATE')
         or not has_column_privilege('authenticated', 'public.profiles', 'display_name', 'UPDATE')
@@ -116,6 +117,12 @@ declare
     original_created_at timestamptz;
     failed_constraint text;
 begin
+    if current_user <> 'authenticated'
+        or auth.uid() is distinct from '10000000-0000-4000-8000-000000000001'::uuid
+        or auth.jwt() ->> 'role' is distinct from 'authenticated'
+        or auth.jwt() ->> 'is_anonymous' is distinct from 'false' then
+        raise exception 'User A simulated Auth context is incorrect';
+    end if;
     if (select count(*) from public.profiles) <> 1
         or not exists (select 1 from public.profiles where id = auth.uid()) then
         raise exception 'User A must read exactly their own profile';
@@ -143,6 +150,11 @@ begin
     begin
         insert into public.profiles (id) values (auth.uid());
         raise exception 'Client profile insertion unexpectedly succeeded';
+    exception when insufficient_privilege then null;
+    end;
+    begin
+        insert into public.profiles (id) values ('10000000-0000-4000-8000-000000000002');
+        raise exception 'User A inserted a profile under user B ownership';
     exception when insufficient_privilege then null;
     end;
     begin
@@ -197,10 +209,34 @@ select set_config('request.jwt.claims',
 do $test$
 declare affected integer;
 begin
+    if current_user <> 'authenticated'
+        or auth.uid() is distinct from '10000000-0000-4000-8000-000000000002'::uuid
+        or auth.jwt() ->> 'role' is distinct from 'authenticated'
+        or auth.jwt() ->> 'is_anonymous' is distinct from 'false' then
+        raise exception 'User B simulated Auth context is incorrect';
+    end if;
     if (select count(*) from public.profiles) <> 1
         or not exists (select 1 from public.profiles where id = auth.uid()) then
         raise exception 'User B must read exactly their own profile';
     end if;
+    update public.profiles set display_name = 'User B' where id = auth.uid();
+    get diagnostics affected = row_count;
+    if affected <> 1 or not exists (
+        select 1 from public.profiles where id = auth.uid() and display_name = 'User B'
+    ) then raise exception 'User B cannot update their own profile'; end if;
+    update public.profiles set display_name = null where id = auth.uid();
+    get diagnostics affected = row_count;
+    if affected <> 1 then raise exception 'User B cannot reset their own display name'; end if;
+    begin
+        insert into public.profiles (id) values ('10000000-0000-4000-8000-000000000001');
+        raise exception 'User B inserted a profile under user A ownership';
+    exception when insufficient_privilege then null;
+    end;
+    begin
+        update public.profiles set id = '10000000-0000-4000-8000-000000000001' where id = auth.uid();
+        raise exception 'User B changed their profile owner ID';
+    exception when insufficient_privilege then null;
+    end;
     update public.profiles set display_name = 'Forbidden'
         where id = '10000000-0000-4000-8000-000000000001';
     get diagnostics affected = row_count;
